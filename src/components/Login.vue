@@ -22,6 +22,7 @@
                       v-model="loginForm.password" prefix-icon="iconfont iconpassword" type="password">
             </el-input>
           </el-form-item>
+          <!-- Submit button-->
           <el-button @click="submitForm('loginForm')"
                      style="background-color:#336699; color: white; width: 25%; font-weight: bold;">LOGIN</el-button>
         </el-form>
@@ -51,12 +52,13 @@ export default {
     }
   },
   methods: {
+    /* Submit the form and user login */
     submitForm (formName) {
       this.$refs[formName].validate(async (valid) => {
         if (valid) {
-          const { data: res } = await this.$http.post('user/login', this.loginForm)
+          const { data: res } = await this.$http.post('login', this.loginForm)
           if (res.status !== 200) return this.$message.error('The username and/or password you specified are not correct.')
-          window.sessionStorage.setItem('access_token', res.access_token)
+          window.sessionStorage.setItem('token', res.access_token)
           this.$router.push('/home')
         } else {
           return false

@@ -1,5 +1,5 @@
 html, body, #app {
-    font-family: 'Avenir', Helvetica, Arial, sans-serif;
+    font-family: 'Avenir', Helvetica, Arial, sans-serif !important;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     color: #2c3e50;
@@ -8,3 +8,13 @@ html, body, #app {
     padding: 0px;
 }
 
+.el-table {
+    margin-top: 10px;
+
+}
+
+
+.el-pagination {
+    margin-top: 10px;
+    text-align: center;
+}

@@ -1,11 +1,11 @@
 <template>
-  <div>
+  <div v-loading="loading">
     <el-breadcrumb separator-class="el-icon-arrow-right">
       <el-breadcrumb-item :to="{ path: '/home' }">Home</el-breadcrumb-item>
       <el-breadcrumb-item>Users</el-breadcrumb-item>
       <el-breadcrumb-item>User list</el-breadcrumb-item>
     </el-breadcrumb>
-    <div v-loading="loading">
+    <div>
       <el-row>
         <!-- Search bar -->
         <el-col :span="6">
@@ -15,11 +15,12 @@
         </el-col>
         <!-- Add new user button -->
         <el-col :span="2" :offset="15">
-          <el-button type="primary" v-if="accessLevel < 3" @click="newUserOpen">Add new user</el-button>
+          <el-button type="text" v-if="accessLevel < 3" @click="newUserOpen">Add New User</el-button>
         </el-col>
       </el-row>
       <!-- User list table -->
-      <el-table :data="tempUserList" style="width:100%" border>
+      <el-table :data="tempUserList" style="width:100%; border:1px gray solid;"
+                v-adaptive="{bottomOffset:100}" :height="tableHeight">
         <el-table-column label="Name" prop="name"></el-table-column>
         <el-table-column label="Email" prop="email"></el-table-column>
         <el-table-column label="Birthday" prop="birthday"></el-table-column>
@@ -41,7 +42,7 @@
       </el-table>
       <!-- Pagination -->
       <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange"
-                     :current-page="currentPage" :page-sizes="[10, 15, 20]" :page-size="pageSize"
+                     :current-page="currentPage" :page-sizes="[8, 10, 15]" :page-size="pageSize"
                      layout="total, sizes, prev, pager, next, jumper" :total="totalSize" :hide-on-single-page="false">
       </el-pagination>
       <!-- Add new user dialog -->
@@ -166,6 +167,7 @@ export default {
   mixins: [MixinItem],
   data () {
     return {
+      tableHeight: document.body.clientHeight - 180,
       loading: true,
       userList: [],
       activeUserList: [],
@@ -259,11 +261,11 @@ export default {
         })
       if (confirmResult === 'confirm') {
         const { data: res } = await this.$http.delete('user/userId/' + id)
-        if (res.status !== 200) return this.$message.error(res.message)
+        if (res.status !== 204) return this.$message.error(res.message)
         this.getUserList()
         return this.$message.success(res.message)
       } else {
-        return this.$message.error('Delete opeartion has been canceled')
+        return this.$message.error('Delete operation has been canceled')
       }
     },
     /* Watch page size change */
@@ -288,12 +290,7 @@ export default {
     /* Search user */
     searchUser (Input) {
       const input = Input.toLowerCase()
-      const tempList = []
-      for (let i = 0; i < this.userList.length; i++) {
-        if (this.userList[i].name.toLowerCase().indexOf(input) !== -1) {
-          tempList.push(this.userList[i])
-        }
-      }
+      const tempList = this.userList.filter(data => !input || data.name.toLowerCase().includes(input))
       this.activeUserList = tempList
       this.totalSize = this.activeUserList.length
       this.changePage(1, this.activeUserList)
@@ -350,7 +347,5 @@ export default {
 </script>
 
 <style lang="less" scoped>
-  .el-breadcrumb {
-    margin-bottom: 10px;
-  }
+
 </style>

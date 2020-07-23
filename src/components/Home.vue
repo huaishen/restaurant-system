@@ -1,7 +1,7 @@
 <template>
   <el-container class="home-container">
     <!-- Header -->
-    <el-header height="10%">
+    <el-header height="90px">
       <div>
         <img src="../assets/icons/company_logo.png" alt="">
         <span>Food Paradise Admin System</span>

@@ -2,10 +2,11 @@ import Vue from 'vue'
 import {
   Button, Form, FormItem, Input, Message, Header, Container, Aside, Main, Menu, MenuItem, Submenu,
   Row, Col, Breadcrumb, BreadcrumbItem, Table, TableColumn, Tooltip, Pagination, Dialog, Select, DatePicker,
-  Option, Loading, MessageBox
+  Option, Loading, MessageBox, TabPane, Tabs, Card, Tag, Upload
 } from 'element-ui'
 import lang from 'element-ui/lib/locale/lang/en'
 import locale from 'element-ui/lib/locale'
+import adaptive from '@/directive/el-table'
 
 locale.use(lang)
 
@@ -33,5 +34,12 @@ Vue.use(Select)
 Vue.use(DatePicker)
 Vue.use(Option)
 Vue.use(Loading)
+Vue.use(TabPane)
+Vue.use(Tabs)
+Vue.use(Card)
+Vue.use(Tag)
+Vue.use(Upload)
+Vue.use(adaptive)
+
 Vue.prototype.$message = Message
 Vue.prototype.$confirm = MessageBox.confirm
